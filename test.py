@@ -9,6 +9,12 @@ accounts_cleaned = accounts[['account_type', 'id']]
 accounts_bots = accounts_cleaned[accounts_cleaned['account_type'] == 'bot']
 accounts_humans = accounts_cleaned[accounts_cleaned['account_type'] == 'human']
 
+# for us to keep the collected user info
+collected_user_info = pd.DataFrame()
+
+# for us to keep the updated latest tweets
+collected_user_tweets = pd.DataFrame()
+
 import asyncio
 import time
 import twscrape
