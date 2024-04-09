@@ -1,0 +1,60 @@
+
+import pandas as pd
+
+data = pd.read_json('data.json', lines = True)
+#print(data)
+
+accounts = pd.read_csv('cleaned_user_data.csv')
+collected_user_tweets = pd.DataFrame()
+
+count = 0
+
+import asyncio
+import time
+import twscrape
+from twscrape import API, gather
+from twscrape.logger import set_log_level
+
+async def worker(queue:asyncio.Queue, api:twscrape.API):
+    while True:
+        query = await queue.get()
+        global collected_user_tweets
+        global count
+        try:
+            
+            # gathering user latest tweets (including replies)
+            user_tweets_list = await twscrape.gather(api.user_tweets_and_replies(query, limit=1))
+            user_tweets = pd.DataFrame(user_tweets_list)
+            user_tweets['taken_from'] = int(query)
+            collected_user_tweets = pd.concat([user_tweets, collected_user_tweets])
+            count = count + 1
+            print(count)
+
+        except Exception as e:
+            print(f"Error on {query} - {type(e)}")
+        finally:
+            queue.task_done()
+
+async def main():
+    
+    api = twscrape.API()
+
+    await api.pool.login_all()
+
+    queries = accounts['id'][14001:15000]
+    queue = asyncio.Queue()
+
+    workers_count = 2
+    workers = [asyncio.create_task(worker(queue,api)) for _ in range(workers_count)]
+    for q in queries:
+        queue.put_nowait(q)
+
+    await queue.join()
+    for worker_task in workers:
+        worker_task.cancel()
+
+    collected_user_tweets.to_csv('collected_user_tweets84.csv')
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
