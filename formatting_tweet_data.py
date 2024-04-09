@@ -2,6 +2,14 @@ import pandas as pd
 import numpy as np
 
 tweets = pd.read_csv('concat_tweets.csv', low_memory = False)
+#needed for average tweet per day
+accounts = pd.read_csv('twitter_human_bots_dataset.csv', low_memory = False)
+accounts = accounts.loc[:, accounts.columns.intersection(['id','created_at'])]
+#typecast for aggregation
+tweets.retweetCount = tweets.retweetCount.astype(np.float64)
+tweets.likeCount = tweets.likeCount.astype(np.float64)
+tweets.replyCount = tweets.replyCount.astype(np.float64)
+
 
 # udf to use, much of the data are strings that are actually lists
 def obj_to_list(input):
@@ -59,11 +67,20 @@ grouped_statistics.like_count_mean = grouped_data.likeCount.mean()
 # highest like count
 grouped_statistics.like_count_max = grouped_data.likeCount.max()
 # average daily tweet num
+tweet_count =  grouped_data.id.count()
+tweet_count = pd.DataFrame({'id':tweet_count.index, 'count': tweet_count.values})
+tweet_count = tweet_count.join(accounts.set_index('id'), on='id')
+days = tweets.date.max().replace(tzinfo=None)-pd.to_datetime(tweet_count.created_at)
+tweet_count['daily_avg'] = tweet_count['count']/days.dt.days
 # average reply count 
+grouped_data.replyCount.mean()
 # highest reply count
+grouped_data.replyCount.max()
 # unique reply count
 # highest number of hashtags
+grouped_data.hashtagCount.max()
 # average num of hashtags
+grouped_data.hashtagCount.mean()
 # average num of links
 # average num of photos in tweet
 # average num of videos in tweet
