@@ -34,10 +34,30 @@ tweets['isReply'] = tweets['inReplyToTweetId'].apply(is_reply)
 
 tweets['mentionCount'] = tweets['mentionedUsers'].fillna('0').apply(obj_to_list).apply(list_count)
 
+#Exclude url from raw content
+tweets['url_excluded'] = tweets.rawContent.replace(r'http\S+', '', regex=True).replace(r'www\S+', '', regex=True)
+#wordcount
+tweets['word_count'] = tweets.url_excluded.str.split().apply(len)
+
+#aggregated dataframe
+grouped_statistics = pd.DataFrame(columns = ['word_count_mean', 'word_count_max', 'word_count_max', 'word_count_min', 'rt_count_max', 'rt_count_mean', 'like_count_mean', 'like_count_max'])
+
+grouped_data = tweets.groupby(tweets.taken_from)
 # things to agg we are grouping on the variable: 'extracted_from':
 # average words per tweet
+grouped_statistics.word_count_mean = grouped_data.word_count.mean()
 # highest words per tweet
+grouped_statistics.word_count_max = grouped_data.word_count.max()
 # lowest words per tweet
+grouped_statistics.word_count_min = grouped_data.word_count.min()
+# highest rt count
+grouped_statistics.rt_count_max = grouped_data.retweetCount.max()
+# average rt count
+grouped_statistics.rt_count_mean = grouped_data.retweetCount.mean()
+# avg like count
+grouped_statistics.like_count_mean = grouped_data.likeCount.mean()
+# highest like count
+grouped_statistics.like_count_max = grouped_data.likeCount.max()
 # average daily tweet num
 # average reply count 
 # highest reply count
@@ -47,12 +67,9 @@ tweets['mentionCount'] = tweets['mentionedUsers'].fillna('0').apply(obj_to_list)
 # average num of links
 # average num of photos in tweet
 # average num of videos in tweet
-# highest rt count
-# average rt count
 # avg num of people mentioned in tweet
 # highest num of people mentioned in tweet
-# avg like count
-# highest like count
 
+#grouped_statistics.to_csv('aggregated_tweet_data.csv')
 print(tweets.dtypes)
 
