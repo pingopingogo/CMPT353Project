@@ -60,6 +60,12 @@ tweets.retweetCount = tweets.retweetCount.astype(float)
 tweets.likeCount = tweets.likeCount.astype(float)
 tweets.replyCount = tweets.replyCount.astype(float)
 
+
+#typecast for aggregation
+tweets.retweetCount = tweets.retweetCount.astype(float)
+tweets.likeCount = tweets.likeCount.astype(float)
+tweets.replyCount = tweets.replyCount.astype(float)
+
 # convert tweet date to datetime
 tweets['date'] = pd.to_datetime(tweets['date'])
 
