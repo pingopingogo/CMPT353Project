@@ -112,9 +112,14 @@ grouped_statistics['replyCount_mean'] = grouped_data.replyCount.mean()
 grouped_statistics['replyCount_max'] = grouped_data.replyCount.max()
 # unique reply count
 grouped_statistics['unique_reply_count'] = grouped_data.replyCount.nunique()
-
-
-
+# highest number of hashtags
+grouped_statistics['hashtagCount_max'] = grouped_data.hashtagCount.max()
+# average num of hashtags
+grouped_statistics['hashtagCount_mean'] = grouped_data.hashtagCount.mean()
+# average num of links
+grouped_statistics['links_count_mean'] = grouped_data.links_count.mean()
+# average num of photos in tweet
+grouped_statistics['photos_count_mean'] = grouped_data.photos_count.mean()
 
 # average num of videos in tweet
 grouped_statistics['videos_count_mean'] = grouped_data.videos_count.mean()
