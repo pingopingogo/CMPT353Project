@@ -111,6 +111,7 @@ grouped_statistics['replyCount_mean'] = grouped_data.replyCount.mean()
 # highest reply count
 grouped_statistics['replyCount_max'] = grouped_data.replyCount.max()
 # unique reply count
+grouped_statistics['unique_reply_count'] = grouped_data.replyCount.nunique()
 # highest number of hashtags
 grouped_statistics['hashtagCount_max'] = grouped_data.hashtagCount.max()
 # average num of hashtags
