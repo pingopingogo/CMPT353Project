@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import datetime
 import json
 import re
 
@@ -123,8 +124,11 @@ grouped_statistics['like_count_mean'] = grouped_data_no_retweets.likeCount.mean(
 # highest like count
 grouped_statistics['like_count_max'] = grouped_data_no_retweets.likeCount.max()
 # average daily tweet num
-active_days = (grouped_data_no_retweets.date.max() - grouped_data_no_retweets.date.min())
-grouped_statistics['daily_tweet_mean'] = grouped_data_no_retweets.id.count()/active_days.dt.days
+
+# average tweets per hour
+# originally was tweets per day but some accounts tweeted more than 30 tweets a day, and had their eval = inf
+active_days = (grouped_data_all_tweets.date.max() - grouped_data_all_tweets.date.min())
+grouped_statistics['hourly_tweet_mean'] = grouped_data_all_tweets.id.count()/(active_days.dt.total_seconds()/3600)
 
 
 # average reply count 
