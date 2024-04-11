@@ -123,11 +123,8 @@ grouped_statistics['like_count_mean'] = grouped_data_no_retweets.likeCount.mean(
 # highest like count
 grouped_statistics['like_count_max'] = grouped_data_no_retweets.likeCount.max()
 # average daily tweet num
-tweet_count =  grouped_data_all_tweets.taken_from.count()
-tweet_count = pd.DataFrame({'id':tweet_count.index, 'count': tweet_count.values})
-tweet_count = tweet_count.join(accounts.set_index('id'), on='id')
-days = tweets.date.max().replace(tzinfo=None)-pd.to_datetime(tweet_count.created_at)
-tweet_count['daily_avg'] = tweet_count['count']/days.dt.days #join at the end
+active_days = (grouped_data_no_retweets.date.max() - grouped_data_no_retweets.date.min())
+grouped_statistics['daily_tweet_mean'] = grouped_data_no_retweets.id.count()/active_days.dt.days
 
 
 # average reply count 
@@ -155,7 +152,6 @@ grouped_statistics['videos_count_original_mean'] = grouped_data_no_retweets.vide
 grouped_statistics['mentionCount_mean'] = grouped_data_no_retweets.mentionCount.mean()
 # highest num of people mentioned in tweet
 grouped_statistics['mentionCount_max'] = grouped_data_no_retweets.mentionCount.max()
-grouped_statistics = grouped_statistics.merge(tweet_count, how='left', left_index=True, right_on='id')
 #output to csv
 grouped_statistics.to_csv('aggregated_tweet_data.csv')
 print(tweets.dtypes)
