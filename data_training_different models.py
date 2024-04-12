@@ -43,7 +43,6 @@ models = {
     'RF3': RandomForestClassifier(n_estimators=50, max_depth=25, min_samples_leaf=20),
     'GBC': GradientBoostingClassifier(n_estimators = 200, min_samples_leaf = 10),
     'MLP': MLPClassifier(solver = 'lbfgs', activation = 'logistic', max_iter = 10000, random_state=42),
-    'Reg': LogisticRegression(max_iter=1000),
     'SVM': SVC(random_state=42),
     'KNN1': KNeighborsClassifier(n_neighbors=5),
     'KNN2': KNeighborsClassifier(n_neighbors=10),
