@@ -26,7 +26,7 @@ X = balanced_data.drop('account_type', axis=1)
 y = balanced_data['account_type']
 
 # Splitting the data into training and validation sets
-X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.1, random_state=42)
+X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2, random_state=42)
 
 
 #Scale the Numeric Data
@@ -70,7 +70,6 @@ plt.bar(accuracy_scores.keys(), accuracy_scores.values())
 plt.xlabel('Model')
 plt.ylabel('Accuracy')
 plt.title('Comparison of Classifier Models')
-plt.show()
 
 plt.savefig('model_comparison_chart.png')
 
@@ -82,7 +81,7 @@ accuracy_scores_pca = {}
 # Train and evaluate each model (pca)
 for name, model in models.items():
     ml_model = make_pipeline(
-        PCA(20),
+        PCA(10),
         model
     )
     ml_model.fit(X_train_scaled, y_train)
@@ -99,6 +98,5 @@ plt.bar(accuracy_scores_pca.keys(), accuracy_scores_pca.values())
 plt.xlabel('Model')
 plt.ylabel('Accuracy')
 plt.title('Comparison of Classifier Models with PCA(10)')
-plt.show()
 
 plt.savefig('model_comparison_chart_pca.png')

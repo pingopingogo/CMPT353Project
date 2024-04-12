@@ -5,9 +5,18 @@ import json
 import re
 
 tweets = pd.read_csv('concat_tweets.csv', low_memory = False)
-#needed for average tweet per day
-accounts = pd.read_csv('twitter_human_bots_dataset.csv', low_memory = False)
-accounts = accounts.loc[:, accounts.columns.intersection(['id','created_at'])]
+users = pd.read_csv('collected_user_data.csv').set_index('id')
+users = users[['username', 'displayname', 'rawDescription',
+                         'followersCount', 'friendsCount', 'statusesCount', 'favouritesCount',
+                         'mediaCount', 'blue','created']]
+classification_data = pd.read_csv('twitter_human_bots_dataset.csv')[['id', 'account_type']].set_index('id')
+users = classification_data.join(users).dropna()
+
+classification_data = classification_data[['account_type']]
+users_data = users.drop('created', axis = 1)
+
+users_data.to_csv('cleaned_user_data.csv')
+users['created'] = pd.to_datetime(users['created'])
 
 tweets['taken_from'] = tweets['taken_from'].fillna(0).astype(int)
 
@@ -125,10 +134,10 @@ grouped_statistics['like_count_mean'] = grouped_data_no_retweets.likeCount.mean(
 grouped_statistics['like_count_max'] = grouped_data_no_retweets.likeCount.max()
 # average daily tweet num
 
-# average tweets per hour
-# originally was tweets per day but some accounts tweeted more than 30 tweets a day, and had their eval = inf
-active_days = (grouped_data_all_tweets.date.max() - grouped_data_all_tweets.date.min())
-grouped_statistics['hourly_tweet_mean'] = grouped_data_all_tweets.id.count()/(active_days.dt.total_seconds()/3600)
+# average tweets a day
+active_days = (grouped_data_all_tweets.date.max() - users['created'])
+grouped_statistics['average_tweets_per_day'] = users['statusesCount']/active_days.dt.days
+print(grouped_statistics['average_tweets_per_day'])
 
 
 # average reply count 

@@ -7,7 +7,7 @@ user_data = pd.read_csv('cleaned_user_data.csv').set_index('id')
 data = user_data.join(tweet_data).dropna()
 
 #removing accounts that only made 1 tweet, not enough info (hourly tweets = inf)
-data = data[data['hourly_tweet_mean'] != float('inf')]
+data = data[data['average_tweets_per_day'] != float('inf')]
 
 def word_count(string):
     return len(string.split())
@@ -25,7 +25,7 @@ data['like_vs_tweet_ratio'] = data['statusesCount']/data['favouritesCount']
 data = data.replace(float('inf'), 9999).fillna(9999)
 
 # drop irrelevant columns
-columns_to_drop = ['displayname', 'rawDescription', 'location', 'username']
+columns_to_drop = ['displayname', 'rawDescription', 'username']
 data = data.drop(columns_to_drop, axis=1)
 
 data.to_csv('final_data.csv')
