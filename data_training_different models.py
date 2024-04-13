@@ -71,9 +71,24 @@ plt.ylabel('Accuracy')
 plt.title('Comparison of Classifier Models')
 
 plt.savefig('model_comparison_chart.png')
+# Train and Evaluate multiple models with PCA
+# Data fitted to PCA analysis 
+# Dictionary to store the accuracy of each model (pca)
+accuracy_scores_pca = {}
 
+# Train and evaluate each model (pca)
+for name, model in models.items():
+    ml_model = make_pipeline(
+        PCA(10),
+        model
+    )
+    ml_model.fit(X_train_scaled, y_train)
+    y_pred = ml_model.predict(X_valid_scaled)
+    accuracy_scores_pca[name] = accuracy_score(y_valid, y_pred)
 
-
+# Print the accuracy scores (pca)
+for name, score in accuracy_scores_pca.items():
+    print(f'{name}: {score}')
 
 # Create a bar chart to compare the accuracy of each model
 plt.figure(1)
