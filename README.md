@@ -7,7 +7,7 @@
 
 ### collect_user_data.py
 Required libraries: [pandas](https://pandas.pydata.org/), [twscrape](https://github.com/vladkens/twscrape), asyncio, time  
-Requirement: twitter_human_bots_dataset2.csv in the same directory  
+Requirement: twitter_human_bots_dataset2.csv, data.json in the same directory  
 Command to run: python collect_user_data.py  
 Output file: collected_user_tweets##.csv  
 Description: Collect updated twtter user data and tweet data in twitter_human_bots_dataset2.csv  
