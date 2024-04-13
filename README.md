@@ -50,21 +50,3 @@ Requirement: final_data.csv in the same directory
 Command to run: python data_training_different models.py  
 Description: Use the data with features to train various machine learning model and product comparision graph  
 Output file: model_comparison_chart.png, model_comparison_chart_pca.png
-<br>
-
-### final_data_formatting.py
-
-Required libraries: [pandas](https://pandas.pydata.org/)
-Requirement: aggregated_tweet_data.csv and cleaned_user_data.csv in the same directory  
-Command to run: python final_data_formatting.py  
-Description: Aggregate account data, produced data with features and join user data with tweet data for model training  
-Output file: aggregated_tweet_data.csv  
-<br>
-
-### data_training_different models.py
-
-Required libraries: [pandas](https://pandas.pydata.org/), [sklearn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/)  
-Requirement: final_data.csv in the same directory  
-Command to run: python data_training_different models.py  
-Description: Use the data with features to train various machine learning model and product comparision graph  
-Output file: model_comparison_chart.png, model_comparison_chart_pca.png
