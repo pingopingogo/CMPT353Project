@@ -4,7 +4,7 @@ import pandas as pd
 data = pd.read_json('data.json', lines = True)
 #print(data)
 
-accounts = pd.read_csv('/mnt/c/Users/joyli/OneDrive - Simon Fraser University (1sfu)/CMPT/CMPT 353/Project/twitter_human_bots_dataset2.csv')
+accounts = pd.read_csv('twitter_human_bots_dataset2.csv')
 
 collected_user_info = pd.DataFrame()
 collected_user_tweets = pd.DataFrame()
