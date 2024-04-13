@@ -1,9 +1,22 @@
 # CMPT353Project
 
  ## Group project for CMPT353 E100 Spring 2024  
- Group Members: Xiao Le Li, Lavika Singh, Wai Lee Tai  
+ Group Members: Xiao Le Li, Lavika Singh, Wai Lee Tai 
 
-## Project Codes:  
+## Project Overview :
+This project aims to develop a machine learning model to detect Twitter bots. It involves collecting Twitter data, preprocessing, and feature engineering to create a dataset, and then training and evaluating machine learning models to classify accounts as bots or humans.
+
+## Dependencies : 
+Dependencies
+pandas
+numpy
+scikit-learn
+matplotlib
+
+## Data Collection and Preprocessing
+The dataset used in this project consists of tweet data collected from Twitter. The raw data is processed to extract relevant features such as tweet content, retweet count, like count, and user information. The data is then aggregated to create a comprehensive dataset for each Twitter account.
+
+## Project Codes Description :  
 
 ### collect_user_data.py
 Required libraries: [pandas](https://pandas.pydata.org/), [twscrape](https://github.com/vladkens/twscrape), asyncio, time  
@@ -27,16 +40,3 @@ Command to run: python formatting_tweet_data.py
 Description: Aggregate tweet data and produced data with features for model training  
 Output file: aggregated_tweet_data.csv, cleaned_user_data.csv    
 <br>
-### final_data_formatting.py   
-Required libraries: [pandas](https://pandas.pydata.org/)
-Requirement: aggregated_tweet_data.csv and cleaned_user_data.csv in the same directory  
-Command to run: python final_data_formatting.py  
-Description: Aggregate account data, produced data with features and join user data with tweet data for model training  
-Output file: aggregated_tweet_data.csv  
-<br>
-### data_training_different models.py  
-Required libraries: [pandas](https://pandas.pydata.org/), [sklearn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/)  
-Requirement: final_data.csv in the same directory  
-Command to run: python data_training_different models.py  
-Description: Use the data with features to train various machine learning model and product comparision graph  
-Output file: model_comparison_chart.png, model_comparison_chart_pca.png  
