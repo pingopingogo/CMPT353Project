@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.pipeline import make_pipeline
 from sklearn.naive_bayes import GaussianNB
-
+import time
 
 
 data = pd.read_csv('final_data.csv', index_col = 'id')
@@ -50,22 +50,29 @@ models = {
     'NB': GaussianNB()
 }
 
-# Dictionary to store the accuracy of each model
+# Dictionary to store the accuracy and running time of each model
 accuracy_scores = {}
+model_times = {}
 
 # Train and evaluate each model
 for name, model in models.items():
+    start_time = time.time()  # Start time
     model.fit(X_train_scaled, y_train)
     y_pred = model.predict(X_valid_scaled)
+    end_time = time.time()  # End time
     accuracy_scores[name] = accuracy_score(y_valid, y_pred)
+    model_times[name] = end_time - start_time  # Compute the running time
+    
 
 # Print the accuracy scores
-for name, score in accuracy_scores.items():
-    print(f'{name}: {score}')
+# for name, score in accuracy_scores.items():
+#     print(f'{name}: {score}')
+for name in models.keys():
+    print(f'{name}: Accuracy = {accuracy_scores[name]:.4f}, Running Time = {model_times[name]:.2f} seconds')
 
 # Create a bar chart to compare the accuracy of each model
 plt.figure(0)
-plt.bar(accuracy_scores.keys(), accuracy_scores.values())
+plt.bar(accuracy_scores.keys(), accuracy_scores.values(), color='skyblue')
 plt.xlabel('Model')
 plt.ylabel('Accuracy')
 plt.title('Comparison of Classifier Models')
@@ -74,27 +81,77 @@ plt.savefig('model_comparison_chart.png')
 # Train and Evaluate multiple models with PCA
 # Data fitted to PCA analysis 
 # Dictionary to store the accuracy of each model (pca)
+# Dictionary to store  running time of each model (pca)
+
 accuracy_scores_pca = {}
+model_times_pca = {}
 
 # Train and evaluate each model (pca)
 for name, model in models.items():
+    start_time = time.time()  # Start time for PCA
     ml_model = make_pipeline(
         PCA(10),
         model
     )
     ml_model.fit(X_train_scaled, y_train)
     y_pred = ml_model.predict(X_valid_scaled)
+    end_time = time.time()  # End time for PCA
     accuracy_scores_pca[name] = accuracy_score(y_valid, y_pred)
+    model_times_pca[name] = end_time - start_time  # Compute the running time for PCA
 
 # Print the accuracy scores (pca)
-for name, score in accuracy_scores_pca.items():
-    print(f'{name}: {score}')
+
+for name in models.keys():
+    print(f'{name} with PCA: Accuracy = {accuracy_scores_pca[name]:.4f}, Running Time = {model_times_pca[name]:.2f} seconds')
+
+# for name, score in accuracy_scores_pca.items():
+#     print(f'{name}: {score}')
 
 # Create a bar chart to compare the accuracy of each model
-plt.figure(1)
-plt.bar(accuracy_scores_pca.keys(), accuracy_scores_pca.values())
+# Create a bar chart to compare the accuracy of each model with PCA
+plt.figure(figsize=(10, 5))
+plt.bar(accuracy_scores_pca.keys(), accuracy_scores_pca.values(), color='lightgreen')
 plt.xlabel('Model')
 plt.ylabel('Accuracy')
 plt.title('Comparison of Classifier Models with PCA(10)')
-
 plt.savefig('model_comparison_chart_pca.png')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# plt.figure(1)
+# plt.bar(accuracy_scores_pca.keys(), accuracy_scores_pca.values(), color='lightgreen')
+# plt.xlabel('Model')
+# plt.ylabel('Accuracy')
+# plt.title('Comparison of Classifier Models with PCA(10)')
+
+# plt.savefig('model_comparison_chart_pca.png')
