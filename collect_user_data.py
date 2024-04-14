@@ -22,10 +22,20 @@ async def worker(queue:asyncio.Queue, api:twscrape.API):
         global collected_user_tweets
 
         try:
-            
+           
             # gathering user latest tweets (including replies)
             user_tweets_list = await twscrape.gather(api.user_tweets_and_replies(query, limit=1))
             user_tweets = pd.DataFrame(user_tweets_list)
+
+            # Ensure datetime is in the correct format
+            user_tweets['date'] = pd.to_datetime(user_tweets['date'])
+
+            # Extracting time-related features
+            user_tweets['time_of_day'] = user_tweets['date'].dt.hour
+            user_tweets['day_of_week'] = user_tweets['date'].dt.day_name()
+            user_tweets['weekend'] = user_tweets['date'].dt.dayofweek >= 5
+
+            
             user_tweets['taken_from'] = int(query)
             print(user_tweets)
             collected_user_tweets = pd.concat([user_tweets, collected_user_tweets])
