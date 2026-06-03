@@ -1,8 +1,4 @@
-# CMPT353Project
-
-## Group project for CMPT353 E100 Spring 2024
-
-Group Members: Xiao Le Li, Lavika Singh, Wai Lee Tai
+# Twitter Bot Classification Project
 
 ## Project Codes:
 
